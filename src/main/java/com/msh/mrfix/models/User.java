@@ -25,7 +25,6 @@ public class User {
     @Column(name = "createdate")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "YYYY-MM-DD")
-    @JsonIgnore
     private Date creationDate;
 
     @PrePersist
@@ -97,5 +96,9 @@ public class User {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String toString(){
+        return "name: " +name+ " Surname: " +surname+ " Address: " + address+ " Email: " + email;
     }
 }
