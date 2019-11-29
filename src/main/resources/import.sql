@@ -1,3 +1,3 @@
-INSERT INTO users(name, surname, email, address, deleted, admin, createdate) VALUES ('Marcos', 'Solaz', 'marcos@gmail.com', 'Benedicto xvi', false, true, '2015-02-04');
-INSERT INTO users(name, surname, email, address, deleted, admin, createdate) VALUES ('Pepe', 'Gonzalez', 'pepe@gmail.com', 'de la paz 1', true, false, '2013-02-04');
-INSERT INTO users(name, surname, email, address, deleted, admin, createdate) VALUES ('Fede', 'Lorca', 'fede@hotmail.com', 'Plaza España 2', false, false, '2018-02-04');
+INSERT INTO users(name, surname, email, address, deleted, admin, createdate, city) VALUES ('Marcos', 'Solaz', 'marcos@gmail.com', 'Benedicto xvi', false, true, '2015-02-04', 'Valencia');
+INSERT INTO users(name, surname, email, address, deleted, admin, createdate, city) VALUES ('Pepe', 'Gonzalez', 'pepe@gmail.com', 'de la paz 1', true, false, '2013-02-04', 'Madrid');
+INSERT INTO users(name, surname, email, address, deleted, admin, createdate, city) VALUES ('Fede', 'Lorca', 'fede@hotmail.com', 'Plaza España 2', false, false, '2018-02-04', 'Bilbao');

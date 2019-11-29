@@ -1,10 +1,12 @@
 package com.msh.mrfix.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +20,7 @@ public class User {
     private String surname;
     private String email;
     private String address;
+    private String city;
 
     private Boolean admin;
     private Boolean deleted;
@@ -27,11 +30,32 @@ public class User {
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date creationDate;
 
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Order> orders;
+
+
     @PrePersist
     public void prePersist(){
         creationDate = new Date();
         deleted = false;
         admin = false;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public Long getId() {
