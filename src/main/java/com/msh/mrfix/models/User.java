@@ -23,7 +23,7 @@ public class User {
     private Boolean deleted;
 
     @Column(name = "createdate")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date creationDate;
 
