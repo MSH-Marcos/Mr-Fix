@@ -16,11 +16,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String name;
     private String surname;
     private String email;
     private String address;
     private String city;
+    private String password;
 
     private Boolean admin;
     private Boolean deleted;
@@ -30,16 +32,26 @@ public class User {
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date creationDate;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "user")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Order> orders;
 
+    public User() {
+    }
 
     @PrePersist
     public void prePersist(){
         creationDate = new Date();
         deleted = false;
         admin = false;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCity() {

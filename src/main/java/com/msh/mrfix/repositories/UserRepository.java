@@ -14,12 +14,15 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("SELECT u FROM User u WHERE u.deleted = false ")
     public List<User> findAllNotDeleted();
 
+    @Query("SELECT u FROM User u WHERE u.name = :name and u.password = :password and u.deleted = false ")
+    public User login(@Param("name") String name, @Param("password") String password);
+
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query("UPDATE User u SET u.address = :address, u.name = :name, u.surname = :surname, u.email = :email WHERE u.id = :userId")
+    @Query("UPDATE User u SET u.address = :address, u.name = :name, u.surname = :surname, u.email = :email, u.city = :city WHERE u.id = :userId")
     public int updateUser(@Param("userId") long userId, @Param("address") String address,
                    @Param("name") String name, @Param("surname") String surname,
-                   @Param("email") String email);
+                   @Param("email") String email, @Param("city") String city);
 
     @Modifying(clearAutomatically = true)
     @Transactional

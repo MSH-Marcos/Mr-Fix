@@ -17,18 +17,16 @@ public class UserController {
     @Autowired
     UserRepository userR;
 
-    @GetMapping("/users")
-    public List<User> list(){
-        return userR.findAllNotDeleted();
-    }
+    @GetMapping("/users/login")
+    public ResponseEntity<User> login(@RequestBody User user){
+        System.out.println(user);
 
-    @GetMapping("/users/{id}")
-    public User getUser(@PathVariable String id){
-        return userR.findById(Long.parseLong(id)).orElse(null);
+        return new ResponseEntity<User>(userR.login(user.getName(), user.getPassword()), HttpStatus.OK);
     }
 
     @PostMapping("/users")
     public ResponseEntity<User> add(@RequestBody User userToAdd) {
+        System.out.println("dsad");
         try{
             userR.save(userToAdd);
         }catch (IllegalArgumentException e){
@@ -41,7 +39,7 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ResponseEntity<User> update(@PathVariable String id, @RequestBody User userToUpdate) {
         int result = userR.updateUser(Long.parseLong(id), userToUpdate.getAddress(), userToUpdate.getName(),
-                userToUpdate.getSurname(), userToUpdate.getEmail());
+                userToUpdate.getSurname(), userToUpdate.getEmail(), userToUpdate.getCity());
 
         if (result == 0) {
             return ResponseEntity.noContent().build();
@@ -59,5 +57,17 @@ public class UserController {
         }
 
         return new ResponseEntity<User>(getUser(id), HttpStatus.OK);
+    }
+
+    //**************Admin********
+
+    @GetMapping("/users")
+    public List<User> list(){
+        return userR.findAllNotDeleted();
+    }
+
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable String id){
+        return userR.findById(Long.parseLong(id)).orElse(null);
     }
 }
