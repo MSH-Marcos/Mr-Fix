@@ -1,5 +1,6 @@
 package com.msh.mrfix.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.msh.mrfix.helpers.Helper;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,10 +27,37 @@ public class Order {
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date arriveDate;
 
+    @JsonBackReference(value = "user")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @JsonBackReference(value = "service")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Service service;
+
     @PrePersist
     public void prePersist(){
         creationDate = new Date();
         arriveDate = Helper.arriveTime(new Date(), "Adress");
+    }
+
+    public Order() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public Long getId() {
