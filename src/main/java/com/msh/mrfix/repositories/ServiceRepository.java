@@ -16,7 +16,7 @@ public interface ServiceRepository extends JpaRepository<Service,Long> {
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query("UPDATE Service s SET s.name = :name, s.description = :description, s.price = :price, s.available = :available, s.city = :city WHERE u.id = :serviceId")
+    @Query("UPDATE Service s SET s.name = :name, s.description = :description, s.price = :price, s.available = :available, s.city = :city WHERE s.id = :serviceId")
     public int updateService(@Param("serviceId") long serviceId, @Param("description") String description,
                           @Param("name") String name, @Param("price") float price,
                           @Param("available") Boolean available, @Param("city") String city);

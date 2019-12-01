@@ -36,6 +36,7 @@ public class ServiceController {
 
         return new ResponseEntity<Service>(serviceToUpdate, HttpStatus.OK);
     }
+
     @GetMapping("/admin/services")
     public List<Service> listAdmin(){
         return serviceR.findAll();
