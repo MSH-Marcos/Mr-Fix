@@ -48,8 +48,13 @@ public class ServiceController {
     }
 
     @GetMapping("/admin/services")
-    public List<Service> listAdmin(){
-        return serviceR.findAll();
+    public ResponseEntity<List<Service>> listAdmin(){
+        try{
+            return new ResponseEntity<List<Service>>(serviceR.findAll(), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "There was an error wih the petition", ex);
+        }
     }
 
     @PostMapping("/admin/services")
