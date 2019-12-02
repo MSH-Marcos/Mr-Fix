@@ -45,14 +45,15 @@ public class UserController {
 
     @PutMapping("/users/{id}")
     public ResponseEntity<User> update(@PathVariable String id, @RequestBody User userToUpdate) {
-        int result = userR.updateUser(Long.parseLong(id), userToUpdate.getAddress(), userToUpdate.getName(),
-                userToUpdate.getSurname(), userToUpdate.getEmail(), userToUpdate.getCity());
+        try{
+            int result = userR.updateUser(Long.parseLong(id), userToUpdate.getAddress(), userToUpdate.getName(),
+                    userToUpdate.getSurname(), userToUpdate.getEmail(), userToUpdate.getCity());
 
-        if (result == 0) {
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<User>(userToUpdate, HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect data for update", ex);
         }
-
-        return new ResponseEntity<User>(userToUpdate, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
