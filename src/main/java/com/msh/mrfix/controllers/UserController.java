@@ -60,7 +60,7 @@ public class UserController {
     public ResponseEntity<User> delete(@PathVariable String id) {
         try{
             userR.deleteUser(Long.parseLong(id));
-            return new ResponseEntity<User>(getUser(id), HttpStatus.OK);
+            return getUser(id);
         }catch (Exception ex){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Incorrect delete", ex);
@@ -69,7 +69,7 @@ public class UserController {
 
     //**************Admin********
 
-    @GetMapping("/users")
+    @GetMapping("admin/users")
     public ResponseEntity<List<User>> list(){
         try{
             return new ResponseEntity<List<User>>(userR.findAllNotDeleted(), HttpStatus.OK);
@@ -79,8 +79,20 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/{id}")
-    public User getUser(@PathVariable String id){
-        return userR.findById(Long.parseLong(id)).orElse(null);
+    @GetMapping("admin/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable String id){
+        try{
+            User response = userR.findById(Long.parseLong(id)).orElse(null);
+
+            if (response == null)
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User doesnt exist");
+            else
+                return new ResponseEntity<User>(response, HttpStatus.OK);
+        }catch (ResponseStatusException ex) {
+            throw ex;
+        }catch (Exception ex){
+                throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect get user", ex);
+        }
     }
 }
