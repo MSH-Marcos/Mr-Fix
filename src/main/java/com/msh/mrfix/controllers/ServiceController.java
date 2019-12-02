@@ -60,12 +60,10 @@ public class ServiceController {
     @PostMapping("/admin/services")
     public ResponseEntity<Service> add(@RequestBody Service serviceToAdd) {
         try{
-            serviceR.save(serviceToAdd);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<Service>(serviceR.save(serviceToAdd), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect add service petition", ex);
         }
-
-        return new ResponseEntity<Service>(serviceToAdd, HttpStatus.OK);
     }
-
 }
