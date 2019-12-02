@@ -36,14 +36,15 @@ public class ServiceController {
 
     @PutMapping("/admin/services/{id}")
     public ResponseEntity<Service> update(@PathVariable String id, @RequestBody Service serviceToUpdate) {
-        int result = serviceR.updateService(Long.parseLong(id), serviceToUpdate.getDescription(), serviceToUpdate.getName(),
-                serviceToUpdate.getPrice(), serviceToUpdate.getAvailable(), serviceToUpdate.getCity());
+        try{
+            serviceR.updateService(Long.parseLong(id), serviceToUpdate.getDescription(), serviceToUpdate.getName(),
+                    serviceToUpdate.getPrice(), serviceToUpdate.getAvailable(), serviceToUpdate.getCity());
 
-        if (result == 0) {
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<Service>(serviceToUpdate, HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect data for update", ex);
         }
-
-        return new ResponseEntity<Service>(serviceToUpdate, HttpStatus.OK);
     }
 
     @GetMapping("/admin/services")
