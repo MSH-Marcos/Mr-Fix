@@ -34,14 +34,13 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> add(@RequestBody User userToAdd) {
-        System.out.println("dsad");
         try{
             userR.save(userToAdd);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<User>(userToAdd, HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "Incorrect login", ex);
         }
-
-        return new ResponseEntity<User>(userToAdd, HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}")
