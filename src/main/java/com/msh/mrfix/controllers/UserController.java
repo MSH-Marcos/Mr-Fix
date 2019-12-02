@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,9 +20,16 @@ public class UserController {
 
     @GetMapping("/users/login")
     public ResponseEntity<User> login(@RequestBody User user){
-        System.out.println(user);
-
-        return new ResponseEntity<User>(userR.login(user.getName(), user.getPassword()), HttpStatus.OK);
+        try {
+            User responseUser = userR.login(user.getName(), user.getPassword());
+            if (responseUser != null)
+                return new ResponseEntity<User>(responseUser, HttpStatus.OK);
+            else
+                throw new Exception();
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "Incorrect nick/password", ex);
+        }
     }
 
     @PostMapping("/users")
