@@ -55,8 +55,13 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/orders/service/{id}")
-    public List<Order> listFormService(@PathVariable String id){
-        return orderR.findAllFromService(Long.parseLong(id));
+    @GetMapping("admin/orders/service/{id}")
+    public ResponseEntity<List<Order>> listFormService(@PathVariable String id){
+        try{
+            return new ResponseEntity<List<Order>>(orderR.findAllFromService(Long.parseLong(id)), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect get orders from service petition", ex);
+        }
     }
 }
