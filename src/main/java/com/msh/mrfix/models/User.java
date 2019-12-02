@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,12 +17,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
+    @Column(nullable = false)
     private String surname;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
     private String city;
+    @Column(nullable = false)
     private String password;
 
     private Boolean admin;
@@ -44,6 +50,8 @@ public class User {
         creationDate = new Date();
         deleted = false;
         admin = false;
+        if (orders == null)
+            orders = new ArrayList<Order>();
     }
 
     public String getPassword() {
