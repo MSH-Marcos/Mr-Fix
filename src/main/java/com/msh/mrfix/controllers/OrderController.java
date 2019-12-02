@@ -45,9 +45,14 @@ public class OrderController {
 
     //****************Admin****************+
 
-    @GetMapping("/orders")
-    public List<Order> list(){
-        return orderR.findAll();
+    @GetMapping("admin/orders")
+    public ResponseEntity<List<Order>> list(){
+        try{
+            return new ResponseEntity<List<Order>>(orderR.findAll(), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect get orders petition", ex);
+        }
     }
 
     @GetMapping("/orders/service/{id}")
