@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,8 +24,13 @@ public class OrderController {
     Conections conections;
 
     @GetMapping("/orders/user/{id}")
-    public List<Order> list(@PathVariable String id){
-        return orderR.findAllFromUser(Long.parseLong(id));
+    public ResponseEntity<List<Order>> list(@PathVariable String id){
+        try{
+            return new ResponseEntity<List<Order>>(orderR.findAllFromUser(Long.parseLong(id)), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect get orders from user petition", ex);
+        }
     }
 
     @PostMapping("/orders")
