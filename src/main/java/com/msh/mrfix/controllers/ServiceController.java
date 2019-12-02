@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,8 +20,16 @@ public class ServiceController {
     ServiceRepository serviceR;
 
     @GetMapping("/services")
-    public List<Service> list(@RequestBody CityObject city){
-        return serviceR.findAllFromCity(city.getCity());
+    public ResponseEntity<List<Service>> list(@RequestBody CityObject city){
+        try{
+            if(city.getCity() == null)
+                throw new Exception();
+
+            return new ResponseEntity<List<Service>>(serviceR.findAllFromCity(city.getCity()), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect get service from city petition", ex);
+        }
     }
 
     //***********Admin*****************
