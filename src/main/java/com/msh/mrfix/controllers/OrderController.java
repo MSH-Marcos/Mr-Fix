@@ -35,14 +35,12 @@ public class OrderController {
 
     @PostMapping("/orders")
     public ResponseEntity<Order> add(@RequestBody OrderCreationHelper orderToAdd) {
-        Order newOrder;
         try{
-            newOrder = conections.addOrder(orderToAdd);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<Order>(conections.addOrder(orderToAdd), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect parameter for posting order", ex);
         }
-
-        return new ResponseEntity<Order>(newOrder, HttpStatus.OK);
     }
 
     //****************Admin****************+
