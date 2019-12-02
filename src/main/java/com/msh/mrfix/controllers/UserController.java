@@ -70,8 +70,13 @@ public class UserController {
     //**************Admin********
 
     @GetMapping("/users")
-    public List<User> list(){
-        return userR.findAllNotDeleted();
+    public ResponseEntity<List<User>> list(){
+        try{
+            return new ResponseEntity<List<User>>(userR.findAllNotDeleted(), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect get user list", ex);
+        }
     }
 
     @GetMapping("/users/{id}")
