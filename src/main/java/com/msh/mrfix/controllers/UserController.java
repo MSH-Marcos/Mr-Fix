@@ -46,7 +46,7 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ResponseEntity<User> update(@PathVariable String id, @RequestBody User userToUpdate) {
         try{
-            int result = userR.updateUser(Long.parseLong(id), userToUpdate.getAddress(), userToUpdate.getName(),
+            userR.updateUser(Long.parseLong(id), userToUpdate.getAddress(), userToUpdate.getName(),
                     userToUpdate.getSurname(), userToUpdate.getEmail(), userToUpdate.getCity());
 
             return new ResponseEntity<User>(userToUpdate, HttpStatus.OK);
@@ -58,13 +58,13 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<User> delete(@PathVariable String id) {
-        int result = userR.deleteUser(Long.parseLong(id));
-
-        if (result != 1) {
-            return ResponseEntity.noContent().build();
+        try{
+            userR.deleteUser(Long.parseLong(id));
+            return new ResponseEntity<User>(getUser(id), HttpStatus.OK);
+        }catch (Exception ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect delete", ex);
         }
-
-        return new ResponseEntity<User>(getUser(id), HttpStatus.OK);
     }
 
     //**************Admin********
