@@ -30,10 +30,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserControllerTest {
 
     @Test
-    void login() {
-    }
-
-    @Test
     public void givenUserDoesNotExists_whenUserInfoIsRetrieved_then401IsReceived()
             throws ClientProtocolException, IOException {
 
@@ -99,25 +95,5 @@ class UserControllerTest {
         assertThat(
                 httpResponse.getStatusLine().getStatusCode(),
                 equalTo(HttpStatus.SC_BAD_REQUEST));
-    }
-
-    @Test
-    void add() {
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void list() {
-    }
-
-    @Test
-    void getUser() {
     }
 }
