@@ -33,6 +33,30 @@ class UserControllerTest {
     void login() {
     }
 
+    @Test
+    public void givenUserDoesNotExists_whenUserInfoIsRetrieved_then401IsReceived()
+            throws ClientProtocolException, IOException {
+
+        // Given
+        String name = RandomStringUtils.randomAlphabetic( 8 );
+        String password = RandomStringUtils.randomAlphanumeric(8);
+
+        HttpUriRequest request = RequestBuilder.get()
+                .setUri("http://localhost:8080/v1/users/login")
+                .setHeader(HttpHeaders.ACCEPT, "application/json")
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .setEntity(new StringEntity("{\"name\":\""+name+"\",\"password\":\""+password+"\"}", ContentType.APPLICATION_JSON))
+                .build();
+
+        // When
+        HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+        // Then
+        assertThat(
+                httpResponse.getStatusLine().getStatusCode(),
+                equalTo(HttpStatus.SC_UNAUTHORIZED));
+    }
+
 
 
     @Test
