@@ -82,6 +82,26 @@ class UserControllerTest {
     }
 
     @Test
+    public void withoutGivenUser_whenUserInfoIsRetrieved_then400IsReceived()
+            throws ClientProtocolException, IOException {
+
+        // Given
+        HttpUriRequest request = RequestBuilder.get()
+                .setUri("http://localhost:8080/v1/users/login")
+                .setHeader(HttpHeaders.ACCEPT, "application/json")
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .build();
+
+        // When
+        HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+        // Then
+        assertThat(
+                httpResponse.getStatusLine().getStatusCode(),
+                equalTo(HttpStatus.SC_BAD_REQUEST));
+    }
+
+    @Test
     void add() {
     }
 
