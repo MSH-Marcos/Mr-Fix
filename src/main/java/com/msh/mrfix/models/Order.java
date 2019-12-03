@@ -91,4 +91,8 @@ public class Order {
     public void setArriveDate(Date arriveDate) {
         this.arriveDate = arriveDate;
     }
+
+    public String toString(){
+        return "price: " +price+ " date: " +arriveDate+ " user: " + user;
+    }
 }
