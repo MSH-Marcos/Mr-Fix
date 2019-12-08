@@ -17,6 +17,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("SELECT u FROM User u WHERE u.name = :name and u.password = :password and u.deleted = false ")
     public User login(@Param("name") String name, @Param("password") String password);
 
+    @Query("SELECT u FROM User u WHERE u.name = :name and u.deleted = false ")
+    public User findUserByName(@Param("name") String name);
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("UPDATE User u SET u.address = :address, u.name = :name, u.surname = :surname, u.email = :email, u.city = :city WHERE u.id = :userId")

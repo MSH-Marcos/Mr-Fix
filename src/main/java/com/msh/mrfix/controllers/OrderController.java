@@ -7,12 +7,13 @@ import com.msh.mrfix.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@ControllerAdvice
+@PreAuthorize("authenticated")
 @RestController
 @RequestMapping("${mrfix.version}")
 public class OrderController {
@@ -24,10 +25,10 @@ public class OrderController {
     Conections conections;
 
     @GetMapping("/orders/user/{id}")
-    public ResponseEntity<List<Order>> list(@PathVariable String id){
-        try{
+    public ResponseEntity<List<Order>> list(@PathVariable String id) {
+        try {
             return new ResponseEntity<List<Order>>(orderR.findAllFromUser(Long.parseLong(id)), HttpStatus.OK);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Incorrect get orders from user petition", ex);
         }
@@ -35,9 +36,9 @@ public class OrderController {
 
     @PostMapping("/orders")
     public ResponseEntity<Order> add(@RequestBody OrderCreationHelper orderToAdd) {
-        try{
+        try {
             return new ResponseEntity<Order>(conections.addOrder(orderToAdd), HttpStatus.OK);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Incorrect parameter for posting order", ex);
         }
@@ -45,21 +46,23 @@ public class OrderController {
 
     //****************Admin****************+
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("admin/orders")
-    public ResponseEntity<List<Order>> list(){
-        try{
+    public ResponseEntity<List<Order>> list() {
+        try {
             return new ResponseEntity<List<Order>>(orderR.findAll(), HttpStatus.OK);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Incorrect get orders petition", ex);
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("admin/orders/service/{id}")
-    public ResponseEntity<List<Order>> listFormService(@PathVariable String id){
-        try{
+    public ResponseEntity<List<Order>> listFormService(@PathVariable String id) {
+        try {
             return new ResponseEntity<List<Order>>(orderR.findAllFromService(Long.parseLong(id)), HttpStatus.OK);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Incorrect get orders from service petition", ex);
         }
