@@ -29,8 +29,9 @@ public class User {
     private String city;
     @Column(nullable = false)
     private String password;
-
-    private Boolean admin;
+    @Column(nullable = false)
+    private String rol;
+    @Column(nullable = false)
     private Boolean deleted;
 
     @Column(name = "createdate")
@@ -46,12 +47,20 @@ public class User {
     }
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         creationDate = new Date();
         deleted = false;
-        admin = false;
+        rol = "USER";
         if (orders == null)
             orders = new ArrayList<Order>();
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public String getPassword() {
@@ -118,14 +127,6 @@ public class User {
         this.address = address;
     }
 
-    public Boolean getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
-    }
-
     public Boolean getDeleted() {
         return deleted;
     }
@@ -142,7 +143,7 @@ public class User {
         this.creationDate = creationDate;
     }
 
-    public String toString(){
-        return "name: " +name+ " Surname: " +surname+ " Address: " + address+ " Email: " + email;
+    public String toString() {
+        return "name: " + name + " Surname: " + surname + " Address: " + address + " Email: " + email;
     }
 }
