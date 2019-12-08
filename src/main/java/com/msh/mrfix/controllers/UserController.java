@@ -18,6 +18,21 @@ public class UserController {
     @Autowired
     UserRepository userR;
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/users/login")
+    public ResponseEntity<User> login(@RequestBody User user) {
+        try {
+            User responseUser = userR.login(user.getName(), user.getPassword());
+            if (responseUser != null)
+                return new ResponseEntity<User>(responseUser, HttpStatus.OK);
+            else
+                throw new Exception();
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "Incorrect nick/password", ex);
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<User> add(@RequestBody User userToAdd) {
         try {
@@ -86,19 +101,3 @@ public class UserController {
         }
     }
 }
-
-
-/*    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @GetMapping("/users/login")
-    public ResponseEntity<User> login(@RequestBody User user) {
-        try {
-            User responseUser = userR.login(user.getName(), user.getPassword());
-            if (responseUser != null)
-                return new ResponseEntity<User>(responseUser, HttpStatus.OK);
-            else
-                throw new Exception();
-        } catch (Exception ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Incorrect nick/password", ex);
-        }
-    }*/
