@@ -18,8 +18,9 @@ public class UserController {
     @Autowired
     UserRepository userR;
 
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/users/login")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @CrossOrigin
+    @PostMapping("/users/login")
     public ResponseEntity<User> login(@RequestBody User user) {
         try {
             User responseUser = userR.login(user.getName(), user.getPassword());

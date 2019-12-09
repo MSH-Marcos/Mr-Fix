@@ -20,6 +20,7 @@ public class ServiceController {
     @Autowired
     ServiceRepository serviceR;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/services")
     public ResponseEntity<List<Service>> list(@RequestBody CityObject city) {
         try {

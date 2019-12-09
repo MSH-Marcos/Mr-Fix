@@ -24,6 +24,7 @@ public class OrderController {
     @Autowired
     Conections conections;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/orders/user/{id}")
     public ResponseEntity<List<Order>> list(@PathVariable String id) {
         try {
@@ -34,6 +35,7 @@ public class OrderController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/orders")
     public ResponseEntity<Order> add(@RequestBody OrderCreationHelper orderToAdd) {
         try {
