@@ -28,7 +28,7 @@ class UserControllerTest {
         String name = RandomStringUtils.randomAlphabetic( 8 );
         String password = RandomStringUtils.randomAlphanumeric(8);
 
-        HttpUriRequest request = RequestBuilder.get()
+        HttpUriRequest request = RequestBuilder.post()
                 .setUri("http://localhost:8080/v1/users/login")
                 .setHeader(HttpHeaders.ACCEPT, "application/json")
                 .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -52,7 +52,7 @@ class UserControllerTest {
         String name = "Marcos";
         String password = "123";
 
-        HttpUriRequest request = RequestBuilder.get()
+        HttpUriRequest request = RequestBuilder.post()
                 .setUri("http://localhost:8080/v1/users/login")
                 .setHeader(HttpHeaders.ACCEPT, "application/json")
                 .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -73,7 +73,7 @@ class UserControllerTest {
             throws ClientProtocolException, IOException {
 
         // Given
-        HttpUriRequest request = RequestBuilder.get()
+        HttpUriRequest request = RequestBuilder.post()
                 .setUri("http://localhost:8080/v1/users/login")
                 .setHeader(HttpHeaders.ACCEPT, "application/json")
                 .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
