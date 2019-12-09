@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
+import org.apache.commons.io.IOUtils;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +34,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
+/*
+        System.out.println(IOUtils.toString(request.getReader()));
+*/
 
         //Desencripta el token para obtener la informacion en el
         Claims claims = this.validateJWT(request);
