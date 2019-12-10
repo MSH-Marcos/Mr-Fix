@@ -21,13 +21,13 @@ public class ServiceController {
     ServiceRepository serviceR;
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @GetMapping("/services")
-    public ResponseEntity<List<Service>> list(@RequestBody CityObject city) {
+    @GetMapping("/services/{city}")
+    public ResponseEntity<List<Service>> list(@PathVariable String city) {
         try {
-            if (city.getCity() == null)
+            if (city == null)
                 throw new Exception();
 
-            return new ResponseEntity<List<Service>>(serviceR.findAllFromCity(city.getCity()), HttpStatus.OK);
+            return new ResponseEntity<List<Service>>(serviceR.findAllFromCity(city), HttpStatus.OK);
         } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Incorrect get service from city petition", ex);
@@ -39,6 +39,7 @@ public class ServiceController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/services/{id}")
     public ResponseEntity<Service> update(@PathVariable String id, @RequestBody Service serviceToUpdate) {
+        System.out.println(Long.parseLong(id));
         try {
             serviceR.updateService(Long.parseLong(id), serviceToUpdate.getDescription(), serviceToUpdate.getName(),
                     serviceToUpdate.getPrice(), serviceToUpdate.getAvailable(), serviceToUpdate.getCity());

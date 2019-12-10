@@ -4,7 +4,7 @@ INSERT INTO users(name, password, surname, email, address, deleted, rol, created
 
 INSERT INTO services(name, description, price, city, available) VALUES ('Fix Furniture', 'Check and repair furnitures', 35.20, 'Valencia', true);
 INSERT INTO services(name, description, price, city, available) VALUES ('Fix TV', 'Check and repair TV', 43.60, 'Madrid', true);
-INSERT INTO services(name, description, price, city, available) VALUES ('Fix Toilet', 'Check and repair toilet', 35.20, 'Valencia', false);
+INSERT INTO services(name, description, price, city, available) VALUES ('Fix Toilet', 'Check and repair toilet', 35.20, 'Valencia', true);
 
 
 INSERT INTO orders(user_id, service_id, price, createdate, estimatedarrive) VALUES (1, 2, 50, '2018-02-04', '2018-02-04');

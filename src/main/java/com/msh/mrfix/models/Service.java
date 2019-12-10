@@ -22,7 +22,6 @@ public class Service {
 
     @JsonManagedReference(value = "service")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "service")
-    @JsonIgnore
     private List<Order> orders;
 
     public Service() {

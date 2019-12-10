@@ -56,6 +56,8 @@ public class Order {
         return service;
     }
 
+    public String getServiceName() { return service.getName(); }
+
     public void setService(Service service) {
         this.service = service;
     }
